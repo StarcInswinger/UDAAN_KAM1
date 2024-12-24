@@ -10,3 +10,4 @@ GRANT ALL PRIVILEGES ON DATABASE kam TO myuser;
 
 \c kam
 
+
