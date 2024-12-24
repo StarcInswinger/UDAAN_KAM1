@@ -7,15 +7,14 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "calls_tracking")
+@Table(name = "call_tracking")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CallTracking {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "call_id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long callId;
 
     @ManyToOne
@@ -29,6 +28,6 @@ public class CallTracking {
     private String Notes;
 
     @OneToOne
-    @JoinColumn(name = "order_id", nullable = true)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order orderId;
 }

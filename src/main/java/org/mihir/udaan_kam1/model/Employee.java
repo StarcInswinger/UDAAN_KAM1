@@ -22,6 +22,12 @@ public class Employee {
     @Column(name = "name", nullable = false)
     String employeeName;
 
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private EmployeeRole employeeRole;
