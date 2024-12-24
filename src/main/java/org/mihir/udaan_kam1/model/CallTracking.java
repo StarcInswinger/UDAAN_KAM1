@@ -1,0 +1,34 @@
+package org.mihir.udaan_kam1.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "calls_tracking")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CallTracking {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "call_id", nullable = false, updatable = false)
+    private Long callId;
+
+    @ManyToOne
+    @JoinColumn(name = "poc_id", referencedColumnName = "id", nullable = false)
+    private RestaurantPOC pocId;
+
+    @Column(name = "call_date", nullable = false)
+    private LocalDateTime callDate;
+
+    @Column(name = "notes", length = 255)
+    private String Notes;
+
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = true)
+    private Order orderId;
+}
