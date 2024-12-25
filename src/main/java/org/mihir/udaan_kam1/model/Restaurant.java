@@ -34,6 +34,10 @@ public class Restaurant {
     @Column(name = "status", nullable = false)
     private RestaurantStatus restaurantStatus;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
+    private Employee employee;
+
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RestaurantPOC> pointOfContacts;
 }

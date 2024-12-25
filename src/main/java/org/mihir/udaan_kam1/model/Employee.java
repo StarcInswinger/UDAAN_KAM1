@@ -2,18 +2,26 @@ package org.mihir.udaan_kam1.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.catalina.User;
 import org.mihir.udaan_kam1.enums.EmployeeRole;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.ZoneId;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Employee {
+@Builder
+public class Employee implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -33,13 +41,41 @@ public class Employee {
     private EmployeeRole employeeRole;
 
     @Column(name = "zone", nullable = false)
-    private String timeZone;
+    private String employeeTimeZone;
 
-    public void setTimeZone(ZoneId zoneId) {
-        this.timeZone = zoneId.getId();
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Restaurant> restaurantsList;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + employeeRole.name()));
     }
 
-    public ZoneId getTimeZone() {
-        return ZoneId.of(this.timeZone);
+    public void setEmployeeTimeZone(ZoneId zoneId) {
+        this.employeeTimeZone = zoneId.getId();
+    }
+
+    public ZoneId getEmployeeTimeZone() {
+        return ZoneId.of(this.employeeTimeZone);
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
