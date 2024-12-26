@@ -2,9 +2,9 @@ package org.mihir.udaan_kam1.security;
 
 import lombok.RequiredArgsConstructor;
 import org.mihir.udaan_kam1.dao.EmployeeRepository;
-import org.mihir.udaan_kam1.dto.AuthRequest;
-import org.mihir.udaan_kam1.dto.AuthResponse;
-import org.mihir.udaan_kam1.dto.EmployeeRequest;
+import org.mihir.udaan_kam1.dto.Auth.AuthRequest;
+import org.mihir.udaan_kam1.dto.Auth.AuthResponse;
+import org.mihir.udaan_kam1.dto.Employee.EmployeeRequest;
 import org.mihir.udaan_kam1.model.Employee;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

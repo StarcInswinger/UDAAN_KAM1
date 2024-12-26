@@ -1,9 +1,6 @@
-package org.mihir.udaan_kam1.dto;
+package org.mihir.udaan_kam1.dto.Restaurant;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.mihir.udaan_kam1.enums.RestaurantScale;
 import org.mihir.udaan_kam1.enums.RestaurantStatus;
 
@@ -11,11 +8,10 @@ import org.mihir.udaan_kam1.enums.RestaurantStatus;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantResponse {
-    private Long id;
+public class RestaurantRequest {
     private String restaurantName;
     private String restaurantAddress;
     private RestaurantScale restaurantScale;
     private RestaurantStatus restaurantStatus;
-    private EmployeeResponse employee;
+    private String employeeUsername;
 }

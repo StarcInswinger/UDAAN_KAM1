@@ -1,8 +1,8 @@
-package org.mihir.udaan_kam1.service;
+package org.mihir.udaan_kam1.service.Employee;
 
 import org.mihir.udaan_kam1.dao.EmployeeRepository;
-import org.mihir.udaan_kam1.dto.EmployeeRequest;
-import org.mihir.udaan_kam1.dto.EmployeeResponse;
+import org.mihir.udaan_kam1.dto.Employee.EmployeeRequest;
+import org.mihir.udaan_kam1.dto.Employee.EmployeeResponse;
 import org.mihir.udaan_kam1.model.Employee;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +10,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper) {

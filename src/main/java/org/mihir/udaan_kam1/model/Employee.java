@@ -18,9 +18,9 @@ import java.util.List;
 @Entity
 @Table(name = "employees")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Employee implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

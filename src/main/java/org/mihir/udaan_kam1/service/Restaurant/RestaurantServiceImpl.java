@@ -1,10 +1,9 @@
-package org.mihir.udaan_kam1.service;
+package org.mihir.udaan_kam1.service.Restaurant;
 
 import org.mihir.udaan_kam1.dao.EmployeeRepository;
 import org.mihir.udaan_kam1.dao.RestaurantRepository;
-import org.mihir.udaan_kam1.dto.EmployeeRequest;
-import org.mihir.udaan_kam1.dto.RestaurantResponse;
-import org.mihir.udaan_kam1.dto.RestaurantRequest;
+import org.mihir.udaan_kam1.dto.Restaurant.RestaurantResponse;
+import org.mihir.udaan_kam1.dto.Restaurant.RestaurantRequest;
 import org.mihir.udaan_kam1.model.Employee;
 import org.mihir.udaan_kam1.model.Restaurant;
 import org.modelmapper.ModelMapper;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -49,7 +47,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         Employee employee = employeeRepository.findByUsername(restaurantRequest.getEmployeeUsername()).get();
         Restaurant restaurant = modelMapper.map(restaurantRequest, Restaurant.class);
         restaurant.setEmployee(employee);
-        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+        Restaurant savedRestaurant = restaurantRepository.saveAndFlush(restaurant);
         return modelMapper.map(savedRestaurant, RestaurantResponse.class);
     }
 
@@ -58,7 +56,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         Employee employee = employeeRepository.findByUsername(restaurantRequest.getEmployeeUsername()).get();
         Restaurant restaurant = modelMapper.map(restaurantRequest, Restaurant.class);
         restaurant.setEmployee(employee);
-        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+        Restaurant savedRestaurant = restaurantRepository.saveAndFlush(restaurant);
         return modelMapper.map(savedRestaurant, RestaurantResponse.class);
     }
 

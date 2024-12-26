@@ -1,4 +1,4 @@
-package org.mihir.udaan_kam1.dto;
+package org.mihir.udaan_kam1.dto.Auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthRequest {
-    private String username;
-    private String password;
+public class AuthResponse {
+    private String token;
 }

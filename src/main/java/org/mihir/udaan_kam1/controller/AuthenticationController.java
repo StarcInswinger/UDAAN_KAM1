@@ -1,9 +1,9 @@
 package org.mihir.udaan_kam1.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.mihir.udaan_kam1.dto.AuthRequest;
-import org.mihir.udaan_kam1.dto.AuthResponse;
-import org.mihir.udaan_kam1.dto.EmployeeRequest;
+import org.mihir.udaan_kam1.dto.Auth.AuthRequest;
+import org.mihir.udaan_kam1.dto.Auth.AuthResponse;
+import org.mihir.udaan_kam1.dto.Employee.EmployeeRequest;
 import org.mihir.udaan_kam1.security.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

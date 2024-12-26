@@ -1,7 +1,7 @@
-package org.mihir.udaan_kam1.service;
+package org.mihir.udaan_kam1.service.Employee;
 
-import org.mihir.udaan_kam1.dto.EmployeeRequest;
-import org.mihir.udaan_kam1.dto.EmployeeResponse;
+import org.mihir.udaan_kam1.dto.Employee.EmployeeRequest;
+import org.mihir.udaan_kam1.dto.Employee.EmployeeResponse;
 
 import java.util.List;
 

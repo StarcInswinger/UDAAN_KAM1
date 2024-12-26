@@ -1,4 +1,4 @@
-package org.mihir.udaan_kam1.dto;
+package org.mihir.udaan_kam1.dto.Employee;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +12,10 @@ import java.time.ZoneId;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmployeeResponse {
-    private Long employeeId;
+public class EmployeeRequest {
     private String employeeName;
     private String username;
-    private EmployeeRole employeeRole;
-    private String employeeTimeZone;
+    private String password;
+    private EmployeeRole role;
+    private ZoneId timeZone;
 }

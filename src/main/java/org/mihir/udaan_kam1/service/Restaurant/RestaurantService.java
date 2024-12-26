@@ -1,7 +1,7 @@
-package org.mihir.udaan_kam1.service;
+package org.mihir.udaan_kam1.service.Restaurant;
 
-import org.mihir.udaan_kam1.dto.RestaurantRequest;
-import org.mihir.udaan_kam1.dto.RestaurantResponse;
+import org.mihir.udaan_kam1.dto.Restaurant.RestaurantRequest;
+import org.mihir.udaan_kam1.dto.Restaurant.RestaurantResponse;
 
 import java.util.List;
 

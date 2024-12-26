@@ -18,10 +18,6 @@ public class RestaurantPOC {
     @Column(name = "id")
     private Long pocId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
-    private Restaurant restaurant;
-
     @Column(name = "name", nullable = false, length = 100)
     private String pocName;
 
@@ -32,13 +28,9 @@ public class RestaurantPOC {
     private String pocRole;
 
     @Column(name = "zone", nullable = false)
-    private String timeZone;
+    private ZoneId pocTimeZone;
 
-    public void setTimeZone(ZoneId zoneId) {
-        this.timeZone = zoneId.getId();
-    }
-
-    public ZoneId getTimeZone() {
-        return ZoneId.of(this.timeZone);
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
+    private Restaurant restaurant;
 }
