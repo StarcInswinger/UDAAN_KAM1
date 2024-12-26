@@ -31,7 +31,7 @@ public class AdminInitialiser implements CommandLineRunner {
     @Value("${login.admin.password}")
     private String adminPassword;
 
-    String currentTimeZone = ZoneId.systemDefault().toString();
+    ZoneId currentTimeZone = ZoneId.systemDefault();
 
     @Override
     public void run(String... args) {

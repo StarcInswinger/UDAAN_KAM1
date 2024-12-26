@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.mihir.udaan_kam1.dao.EmployeeRepository;
 import org.mihir.udaan_kam1.dto.AuthRequest;
 import org.mihir.udaan_kam1.dto.AuthResponse;
-import org.mihir.udaan_kam1.dto.RegisterRequest;
+import org.mihir.udaan_kam1.dto.EmployeeRequest;
 import org.mihir.udaan_kam1.model.Employee;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,14 +19,15 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthResponse register(RegisterRequest request) {
+    public AuthResponse register(EmployeeRequest employeeRequest) {
         var employee = Employee.builder()
-                .employeeName(request.getEmployeeName())
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .employeeRole(request.getRole())
-                .employeeTimeZone(request.getTimeZone())
+                .employeeName(employeeRequest.getEmployeeName())
+                .username(employeeRequest.getUsername())
+                .password(passwordEncoder.encode(employeeRequest.getPassword()))
+                .employeeRole(employeeRequest.getRole())
+                .employeeTimeZone(employeeRequest.getTimeZone())
                 .build();
+
         employeeRepository.save(employee);
         var jwtToken = jwtService.generateToken(employee);
         return AuthResponse.builder()

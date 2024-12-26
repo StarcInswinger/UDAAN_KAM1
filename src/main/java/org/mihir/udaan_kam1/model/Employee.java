@@ -41,7 +41,7 @@ public class Employee implements UserDetails {
     private EmployeeRole employeeRole;
 
     @Column(name = "zone", nullable = false)
-    private String employeeTimeZone;
+    private ZoneId employeeTimeZone;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Restaurant> restaurantsList;
@@ -49,14 +49,6 @@ public class Employee implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + employeeRole.name()));
-    }
-
-    public void setEmployeeTimeZone(ZoneId zoneId) {
-        this.employeeTimeZone = zoneId.getId();
-    }
-
-    public ZoneId getEmployeeTimeZone() {
-        return ZoneId.of(this.employeeTimeZone);
     }
 
     @Override

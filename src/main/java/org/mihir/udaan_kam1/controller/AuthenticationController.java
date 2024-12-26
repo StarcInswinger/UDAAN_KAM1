@@ -3,7 +3,7 @@ package org.mihir.udaan_kam1.controller;
 import lombok.RequiredArgsConstructor;
 import org.mihir.udaan_kam1.dto.AuthRequest;
 import org.mihir.udaan_kam1.dto.AuthResponse;
-import org.mihir.udaan_kam1.dto.RegisterRequest;
+import org.mihir.udaan_kam1.dto.EmployeeRequest;
 import org.mihir.udaan_kam1.security.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> register(@RequestBody EmployeeRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 
