@@ -19,15 +19,15 @@ public class CallTracking {
 
     @ManyToOne
     @JoinColumn(name = "poc_id", referencedColumnName = "id", nullable = false)
-    private RestaurantPOC pocId;
+    private RestaurantPOC poc;
 
     @Column(name = "call_date", nullable = false)
     private LocalDateTime callDate;
 
     @Column(name = "notes", length = 255)
-    private String Notes;
+    private String notes;
 
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
-    private Order orderId;
+    private Order order;
 }

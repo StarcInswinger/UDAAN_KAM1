@@ -1,9 +1,9 @@
 package org.mihir.udaan_kam1.dao;
 
-import org.mihir.udaan_kam1.model.Restaurant;
+import org.mihir.udaan_kam1.model.CallTracking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+public interface CallTrackingRepository extends JpaRepository<CallTracking, Long> {
 }
