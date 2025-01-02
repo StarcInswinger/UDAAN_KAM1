@@ -11,4 +11,6 @@ public interface RestaurantService {
     RestaurantResponse createRestaurant(RestaurantRequest restaurantRequest);
     RestaurantResponse updateRestaurant(RestaurantRequest restaurantRequest);
     void deleteRestaurant(Long id);
+
+    List<RestaurantResponse> getRestaurantsByEmployeeUsername(String employeeUsername);
 }

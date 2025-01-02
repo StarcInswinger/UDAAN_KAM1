@@ -19,5 +19,6 @@ public class CallTrackingResponse {
     private RestaurantPOCResponse poc;
     private LocalDateTime callDate;
     private String notes;
+    private Integer callAgain;
     private OrderResponse order;
 }

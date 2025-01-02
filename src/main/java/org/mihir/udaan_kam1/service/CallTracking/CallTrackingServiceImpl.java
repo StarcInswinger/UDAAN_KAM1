@@ -48,11 +48,19 @@ public class CallTrackingServiceImpl implements CallTrackingService {
 
     @Override
     public CallTrackingResponse createCallTracking(CallTrackingRequest callTrackingRequest) {
+        Order order = null;
         RestaurantPOC restaurantPOC = restaurantPOCRepository.findById(callTrackingRequest.getPocId()).get();
-        Order order = orderRepository.findById(callTrackingRequest.getOrderId()).orElse(null);
-        CallTracking callTracking = modelMapper.map(callTrackingRequest, CallTracking.class);
-        callTracking.setPoc(restaurantPOC);
-        callTracking.setOrder(order);
+        if(callTrackingRequest.getOrderId()!=null) {
+            order = orderRepository.findById(callTrackingRequest.getOrderId()).orElse(null);
+        }
+        CallTracking callTracking = CallTracking.builder()
+                .poc(restaurantPOC)
+                .callDate(callTrackingRequest.getCallDate())
+                .notes(callTrackingRequest.getNotes())
+                .callAgain(callTrackingRequest.getCallAgain())
+                .order(order)
+                .build();
+
         CallTracking savedCallTracking = callTrackingRepository.saveAndFlush(callTracking);
         return modelMapper.map(savedCallTracking, CallTrackingResponse.class);
     }
@@ -71,5 +79,23 @@ public class CallTrackingServiceImpl implements CallTrackingService {
     @Override
     public void deleteCallTracking(Long id) {
         callTrackingRepository.deleteById(id);
+    }
+
+
+
+    @Override
+    public CallTrackingResponse getLastCallTrackingByPOCId(Long pocId) {
+        CallTracking lastCallTracking = callTrackingRepository.findCallTrackingByPoc_PocIdOrderByCallDateDesc(pocId);
+        return modelMapper.map(lastCallTracking, CallTrackingResponse.class);
+    }
+
+    @Override
+    public List<CallTrackingResponse> getAllCallTrackingsByPOCId(Long pocId) {
+        List<CallTracking> callTrackingsByPocId = callTrackingRepository.findCallTrackingsByPoc_PocId(pocId);
+        List<CallTrackingResponse> callTrackingResponses = new ArrayList<>();
+        for (CallTracking callTracking : callTrackingsByPocId) {
+            callTrackingResponses.add(modelMapper.map(callTracking, CallTrackingResponse.class));
+        }
+        return callTrackingResponses;
     }
 }

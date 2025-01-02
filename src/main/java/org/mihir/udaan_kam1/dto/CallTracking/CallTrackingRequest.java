@@ -15,5 +15,6 @@ public class CallTrackingRequest {
     private Long pocId;
     private LocalDateTime callDate;
     private String notes;
+    private Integer callAgain;
     private Long OrderId;
 }

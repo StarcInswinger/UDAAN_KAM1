@@ -1,22 +1,23 @@
 package org.mihir.udaan_kam1.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.ZoneId;
 
 @Entity
 @Table(name = "pocs")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "restaurant")
+@EqualsAndHashCode(exclude = "restaurant")
 public class RestaurantPOC {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long pocId;
+    Long pocId;
 
     @Column(name = "name", nullable = false, length = 100)
     private String pocName;

@@ -64,4 +64,12 @@ public class PerformanceServiceImpl implements PerformanceService {
     public void deletePerformance(Long id) {
         performanceRepository.deleteById(id);
     }
+
+
+
+    @Override
+    public PerformanceResponse getPerformanceByRestaurantId(Long restaurantId) {
+        Performance performanceByRestaurantId = performanceRepository.findPerformanceByRestaurant_RestaurantId(restaurantId);
+        return modelMapper.map(performanceByRestaurantId, PerformanceResponse.class);
+    }
 }

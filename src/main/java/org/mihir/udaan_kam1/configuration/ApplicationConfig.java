@@ -2,6 +2,8 @@ package org.mihir.udaan_kam1.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.mihir.udaan_kam1.dao.EmployeeRepository;
+import org.mihir.udaan_kam1.dto.RestaurantPOC.RestaurantPOCRequest;
+import org.mihir.udaan_kam1.model.RestaurantPOC;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

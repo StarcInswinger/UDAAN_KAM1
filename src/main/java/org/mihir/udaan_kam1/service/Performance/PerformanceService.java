@@ -11,4 +11,6 @@ public interface PerformanceService {
     PerformanceResponse createPerformance(PerformanceRequest performanceRequest);
     PerformanceResponse updatePerformance(PerformanceRequest performanceRequest);
     void deletePerformance(Long id);
+
+    PerformanceResponse getPerformanceByRestaurantId(Long restaurantId);
 }

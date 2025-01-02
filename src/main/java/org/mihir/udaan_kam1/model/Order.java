@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
@@ -28,4 +27,7 @@ public class Order {
 
     @Column(name = "order_time", nullable = false)
     private LocalDateTime orderTime;
+
+    @OneToOne
+    private CallTracking callTracking;
 }

@@ -57,4 +57,16 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(Long id){
         orderRepository.deleteById(id);
     }
+
+
+
+    @Override
+    public List<OrderResponse> getOrdersByRestaurantId(Long restaurantId) {
+        List<Order> ordersByRestaurantId = orderRepository.findOrdersByCallTracking_Poc_Restaurant_RestaurantId(restaurantId);
+        List<OrderResponse> orderResponses = new ArrayList<>();
+        for(Order order : ordersByRestaurantId) {
+            orderResponses.add(modelMapper.map(order, OrderResponse.class));
+        }
+        return orderResponses;
+    }
 }

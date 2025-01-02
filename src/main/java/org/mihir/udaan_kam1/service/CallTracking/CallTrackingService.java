@@ -11,4 +11,7 @@ public interface CallTrackingService {
     CallTrackingResponse createCallTracking(CallTrackingRequest callTrackingRequest);
     CallTrackingResponse updateCallTracking(CallTrackingRequest callTrackingRequest);
     void deleteCallTracking(Long id);
+
+    CallTrackingResponse getLastCallTrackingByPOCId(Long pocId);
+    List<CallTrackingResponse> getAllCallTrackingsByPOCId(Long pocId);
 }

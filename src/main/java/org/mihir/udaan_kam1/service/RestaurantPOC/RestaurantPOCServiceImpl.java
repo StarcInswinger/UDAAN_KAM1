@@ -4,10 +4,12 @@ import org.mihir.udaan_kam1.dao.RestaurantPOCRepository;
 import org.mihir.udaan_kam1.dao.RestaurantRepository;
 import org.mihir.udaan_kam1.dto.RestaurantPOC.RestaurantPOCRequest;
 import org.mihir.udaan_kam1.dto.RestaurantPOC.RestaurantPOCResponse;
+import org.mihir.udaan_kam1.exception.ResourceNotFoundException;
 import org.mihir.udaan_kam1.model.Restaurant;
 import org.mihir.udaan_kam1.model.RestaurantPOC;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,24 +46,51 @@ public class RestaurantPOCServiceImpl implements RestaurantPOCService {
 
     @Override
     public RestaurantPOCResponse createRestaurantPOC(RestaurantPOCRequest restaurantPOCRequest) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantPOCRequest.getRestaurantId()).get();
-        RestaurantPOC restaurantPOC = modelMapper.map(restaurantPOCRequest, RestaurantPOC.class);
-        restaurantPOC.setRestaurant(restaurant);
-        RestaurantPOC savedRestaurantPOC = restaurantPOCRepository.saveAndFlush(restaurantPOC);
+        Restaurant restaurant = restaurantRepository.findById(restaurantPOCRequest.getRestaurantId())
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with id: " + restaurantPOCRequest.getRestaurantId()));
+        RestaurantPOC poc = RestaurantPOC.builder()
+                .pocName(restaurantPOCRequest.getPocName())
+                .pocContactNumber(restaurantPOCRequest.getPocContactNumber())
+                .pocRole(restaurantPOCRequest.getPocRole())
+                .pocTimeZone(restaurantPOCRequest.getPocTimeZone())
+                .restaurant(restaurant)
+                .build();
+
+        RestaurantPOC savedRestaurantPOC = restaurantPOCRepository.saveAndFlush(poc);
         return modelMapper.map(savedRestaurantPOC, RestaurantPOCResponse.class);
     }
 
     @Override
-    public RestaurantPOCResponse updateRestaurantPOC(RestaurantPOCRequest restaurantPOCRequest) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantPOCRequest.getRestaurantId()).get();
-        RestaurantPOC restaurantPOC = modelMapper.map(restaurantPOCRequest, RestaurantPOC.class);
-        restaurantPOC.setRestaurant(restaurant);
-        RestaurantPOC savedRestaurantPOC = restaurantPOCRepository.saveAndFlush(restaurantPOC);
+    public RestaurantPOCResponse updateRestaurantPOC(Long pocId, RestaurantPOCRequest restaurantPOCRequest) {
+        RestaurantPOC oldRestaurantPOC = restaurantPOCRepository.findById(pocId).get();
+        if(!restaurantPOCRequest.getPocName().equals(oldRestaurantPOC.getPocName())){
+            oldRestaurantPOC.setPocName(restaurantPOCRequest.getPocName());
+        }
+        if(!restaurantPOCRequest.getPocContactNumber().equals(oldRestaurantPOC.getPocContactNumber())){
+            oldRestaurantPOC.setPocContactNumber(restaurantPOCRequest.getPocContactNumber());
+        }
+        if(!restaurantPOCRequest.getPocRole().equals(oldRestaurantPOC.getPocRole())){
+            oldRestaurantPOC.setPocRole(restaurantPOCRequest.getPocRole());
+        }
+        if(!restaurantPOCRequest.getPocTimeZone().equals(oldRestaurantPOC.getPocTimeZone())){
+            oldRestaurantPOC.setPocTimeZone(restaurantPOCRequest.getPocTimeZone());
+        }
+        RestaurantPOC savedRestaurantPOC = restaurantPOCRepository.saveAndFlush(oldRestaurantPOC);
         return modelMapper.map(savedRestaurantPOC, RestaurantPOCResponse.class);
     }
 
     @Override
     public void deleteRestaurantPOC(Long id) {
         restaurantPOCRepository.deleteById(id);
+    }
+
+    @Override
+    public List<RestaurantPOCResponse> getAllRestaurantPOCsByRestaurantId(Long restaurantId) {
+        List<RestaurantPOC> restaurantPOCsByRestaurantId = restaurantPOCRepository.findRestaurantPOCSByRestaurant_RestaurantId(restaurantId);
+        List<RestaurantPOCResponse> restaurantPOCResponses = new ArrayList<>();
+        for(RestaurantPOC restaurantPOC : restaurantPOCsByRestaurantId) {
+            restaurantPOCResponses.add(modelMapper.map(restaurantPOC, RestaurantPOCResponse.class));
+        }
+        return restaurantPOCResponses;
     }
 }

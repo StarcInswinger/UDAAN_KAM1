@@ -11,4 +11,6 @@ public interface OrderService {
     OrderResponse createOrder(OrderRequest orderRequest);
     OrderResponse updateOrder(OrderRequest orderRequest);
     void deleteOrder(Long id);
+
+    List<OrderResponse> getOrdersByRestaurantId(Long restaurantId);
 }

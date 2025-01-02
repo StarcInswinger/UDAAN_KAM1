@@ -2,6 +2,7 @@ package org.mihir.udaan_kam1.service.Restaurant;
 
 import org.mihir.udaan_kam1.dao.EmployeeRepository;
 import org.mihir.udaan_kam1.dao.RestaurantRepository;
+import org.mihir.udaan_kam1.dto.Employee.EmployeeResponse;
 import org.mihir.udaan_kam1.dto.Restaurant.RestaurantResponse;
 import org.mihir.udaan_kam1.dto.Restaurant.RestaurantRequest;
 import org.mihir.udaan_kam1.model.Employee;
@@ -63,5 +64,16 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Override
     public void deleteRestaurant(Long id) {
         restaurantRepository.deleteById(id);
+    }
+
+    @Override
+    public List<RestaurantResponse> getRestaurantsByEmployeeUsername(String employeeUsername) {
+        List<Restaurant> restaurants = restaurantRepository.findAllByEmployee_Username(employeeUsername);
+        List<RestaurantResponse> restaurantResponses = new ArrayList<>();
+
+        for(Restaurant restaurant : restaurants){
+            restaurantResponses.add(modelMapper.map(restaurant, RestaurantResponse.class));
+        }
+        return restaurantResponses;
     }
 }

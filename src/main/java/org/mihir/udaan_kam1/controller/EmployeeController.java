@@ -20,11 +20,13 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping
     public ResponseEntity<List<EmployeeResponse>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeResponse> getEmployee(@PathVariable("id") Long id) {
         return ResponseEntity.ok(employeeService.getEmployeeById(id));
@@ -35,6 +37,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.createEmployee(employeeRequest));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping
     public ResponseEntity<EmployeeResponse> updateEmployee(@RequestBody EmployeeRequest employeeRequest) {
         return ResponseEntity.ok(employeeService.updateEmployee(employeeRequest));
@@ -45,5 +48,11 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployee(@RequestParam Long id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.ok("Employee Deleted with ID: " + id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/by-username/{username}")
+    public ResponseEntity<EmployeeResponse> getEmployeeByUsername(@PathVariable("username") String username) {
+        return ResponseEntity.ok(employeeService.getEmployeeByUsername(username));
     }
 }

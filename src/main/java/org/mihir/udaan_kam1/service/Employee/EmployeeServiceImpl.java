@@ -57,4 +57,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
     }
+
+
+    @Override
+    public EmployeeResponse getEmployeeByUsername(String username) {
+        Employee employee = employeeRepository.findByUsername(username).get();
+        return modelMapper.map(employee, EmployeeResponse.class);
+    }
 }

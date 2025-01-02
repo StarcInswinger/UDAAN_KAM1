@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PerformanceRepository extends JpaRepository<Performance, Long> {
+    Performance findPerformanceByRestaurant_RestaurantId(Long restaurantId);
 }

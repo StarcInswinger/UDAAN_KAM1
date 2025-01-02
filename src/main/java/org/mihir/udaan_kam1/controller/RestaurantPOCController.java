@@ -20,30 +20,40 @@ public class RestaurantPOCController {
         this.restaurantPOCService = restaurantPOCService;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping
     public ResponseEntity<List<RestaurantPOCResponse>> getAllRestaurantPOC() {
         return ResponseEntity.ok(restaurantPOCService.getAllRestaurantPOCs());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RestaurantPOCResponse> getRestaurantPOC(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(restaurantPOCService.getRestaurantPOC(id));
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/{pocId}")
+    public ResponseEntity<RestaurantPOCResponse> getRestaurantPOC(@PathVariable("pocId") Long pocId) {
+        return ResponseEntity.ok(restaurantPOCService.getRestaurantPOC(pocId));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PostMapping
     public ResponseEntity<RestaurantPOCResponse> createRestaurantPOC(@RequestBody RestaurantPOCRequest restaurantPOCRequest) {
         return ResponseEntity.ok(restaurantPOCService.createRestaurantPOC(restaurantPOCRequest));
     }
 
-    @PutMapping
-    public ResponseEntity<RestaurantPOCResponse> updateRestaurantPOC(@RequestBody RestaurantPOCRequest restaurantPOCRequest) {
-        return ResponseEntity.ok(restaurantPOCService.updateRestaurantPOC(restaurantPOCRequest));
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @PutMapping("/{pocId}")
+    public ResponseEntity<RestaurantPOCResponse> updateRestaurantPOC(@PathVariable(name = "pocId") Long pocId,@RequestBody RestaurantPOCRequest restaurantPOCRequest) {
+        return ResponseEntity.ok(restaurantPOCService.updateRestaurantPOC(pocId, restaurantPOCRequest));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRestaurantPOC(@PathVariable("id") Long id) {
         restaurantPOCService.deleteRestaurantPOC(id);
         return ResponseEntity.ok("Restaurant POC deleted with ID: " + id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/by-restaurant/{id}")
+    public ResponseEntity<List<RestaurantPOCResponse>> getAllRestaurantPOCsByRestaurantId(@PathVariable(name = "id") Long restaurantId) {
+        return ResponseEntity.ok(restaurantPOCService.getAllRestaurantPOCsByRestaurantId(restaurantId));
     }
 }

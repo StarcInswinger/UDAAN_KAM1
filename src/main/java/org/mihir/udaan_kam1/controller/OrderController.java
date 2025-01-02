@@ -20,21 +20,25 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> getOrderById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@RequestBody OrderRequest orderRequest) {
         return ResponseEntity.ok(orderService.createOrder(orderRequest));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping
     public ResponseEntity<OrderResponse> updateOrder(@RequestBody OrderRequest orderRequest) {
         return ResponseEntity.ok(orderService.updateOrder(orderRequest));
@@ -47,4 +51,9 @@ public class OrderController {
         return ResponseEntity.ok("Order deleted with ID: " + id);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/by-restaurant")
+    public ResponseEntity<List<OrderResponse>> getOrdersByRestaurantId(@RequestParam("id") Long restaurantId) {
+        return ResponseEntity.ok(orderService.getOrdersByRestaurantId(restaurantId));
+    }
 }

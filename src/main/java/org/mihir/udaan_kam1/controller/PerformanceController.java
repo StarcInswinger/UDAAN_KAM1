@@ -21,21 +21,25 @@ public class PerformanceController {
         this.performanceService = performanceService;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping
     public ResponseEntity<List<PerformanceResponse>> getAllPerformances() {
         return ResponseEntity.ok(performanceService.getAllPerformances());
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping("/{id}")
     public ResponseEntity<PerformanceResponse> getPerformanceById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(performanceService.getPerformanceById(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PostMapping
     public ResponseEntity<PerformanceResponse> createPerformance(@RequestBody PerformanceRequest performanceRequest) {
         return ResponseEntity.ok(performanceService.createPerformance(performanceRequest));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping
     public ResponseEntity<PerformanceResponse> updatePerformance(@RequestBody PerformanceRequest performanceRequest) {
         return ResponseEntity.ok(performanceService.updatePerformance(performanceRequest));
@@ -46,5 +50,11 @@ public class PerformanceController {
     public ResponseEntity<String> deletePerformance(@PathVariable("id") Long id) {
         performanceService.deletePerformance(id);
         return ResponseEntity.ok("Performance deleted with ID: " + id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/by-restaurant")
+    public ResponseEntity<PerformanceResponse> getPerformanceByRestaurantId(@RequestParam(name = "id") Long restaurantId) {
+        return ResponseEntity.ok(performanceService.getPerformanceByRestaurantId(restaurantId));
     }
 }

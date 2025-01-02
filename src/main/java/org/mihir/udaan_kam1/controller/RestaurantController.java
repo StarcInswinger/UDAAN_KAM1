@@ -20,30 +20,40 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping
     public ResponseEntity<List<RestaurantResponse>> getAllRestaurant() {
         return ResponseEntity.ok(restaurantService.getAllRestaurants());
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping("/{id}")
     public ResponseEntity<RestaurantResponse> getRestaurant(@PathVariable("id") Long id) {
         return ResponseEntity.ok(restaurantService.getRestaurant(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PostMapping
     public ResponseEntity<RestaurantResponse> createRestaurant(@RequestBody RestaurantRequest restaurantRequest) {
-        return ResponseEntity.ok(restaurantService.createRestaurant(restaurantRequest));
+        return ResponseEntity.status(201).body(restaurantService.createRestaurant(restaurantRequest));
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping
     public ResponseEntity<RestaurantResponse> updateRestaurant(@RequestBody RestaurantRequest restaurantRequest) {
         return ResponseEntity.ok(restaurantService.updateRestaurant(restaurantRequest));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRestaurant(@PathVariable("id") Long id) {
         restaurantService.deleteRestaurant(id);
         return ResponseEntity.ok("Restaurant deleted with ID: " + id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/by-employee/{username}")
+    public ResponseEntity<List<RestaurantResponse>> getRestaurantsByEmployeeUsername(@PathVariable(name = "username") String username) {
+        return ResponseEntity.ok(restaurantService.getRestaurantsByEmployeeUsername(username));
     }
 }
