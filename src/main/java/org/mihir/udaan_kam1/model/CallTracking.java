@@ -17,7 +17,7 @@ public class CallTracking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
-    private Long callId;
+    private Long recordId;
 
     @ManyToOne
     @JoinColumn(name = "poc_id", referencedColumnName = "id", nullable = false)

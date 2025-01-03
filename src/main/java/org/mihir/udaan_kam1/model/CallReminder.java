@@ -19,7 +19,7 @@ public class CallReminder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, updatable = false)
-    private Long callReminderId;
+    private Long reminderId;
 
     @ManyToOne
     @JoinColumn(name = "poc_id", referencedColumnName = "id", nullable = false)

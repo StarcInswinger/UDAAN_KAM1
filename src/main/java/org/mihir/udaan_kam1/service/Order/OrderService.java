@@ -9,7 +9,7 @@ public interface OrderService {
     List<OrderResponse> getAllOrders();
     OrderResponse getOrderById(Long id);
     OrderResponse createOrder(OrderRequest orderRequest);
-    OrderResponse updateOrder(OrderRequest orderRequest);
+    OrderResponse updateOrder(Long orderId, OrderRequest orderRequest);
     void deleteOrder(Long id);
 
     List<OrderResponse> getOrdersByRestaurantId(Long restaurantId);

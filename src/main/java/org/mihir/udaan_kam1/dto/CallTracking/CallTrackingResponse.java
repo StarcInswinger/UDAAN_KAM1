@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CallTrackingResponse {
-    private Long id;
+    private Long recordId;
     private RestaurantPOCResponse poc;
     private LocalDateTime callDate;
     private String notes;

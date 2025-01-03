@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponse updateOrder(OrderRequest orderRequest){
+    public OrderResponse updateOrder(Long orderId, OrderRequest orderRequest){
         Order order = modelMapper.map(orderRequest, Order.class);
         Order savedOrder = orderRepository.saveAndFlush(order);
         return modelMapper.map(savedOrder, OrderResponse.class);

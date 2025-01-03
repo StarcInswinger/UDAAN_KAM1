@@ -44,8 +44,11 @@ public class CallReminderServiceImpl implements CallReminderService{
     @Override
     public CallReminderResponse createCallReminder(CallReminderRequest callReminderRequest) {
         RestaurantPOC restaurantPOC = restaurantPOCRepository.findById(callReminderRequest.getPocId()).get();
-        CallReminder callReminder = modelMapper.map(callReminderRequest, CallReminder.class);
-        callReminder.setRestaurantPOC(restaurantPOC);
+        CallReminder callReminder = CallReminder.builder()
+                .restaurantPOC(restaurantPOC)
+                .callAgainDate(callReminderRequest.getCallAgainDate())
+                .callReminderStatus(callReminderRequest.getCallReminderStatus())
+                .build();
         CallReminder savedCallReminder = callReminderRepository.saveAndFlush(callReminder);
         return modelMapper.map(savedCallReminder, CallReminderResponse.class);
     }
