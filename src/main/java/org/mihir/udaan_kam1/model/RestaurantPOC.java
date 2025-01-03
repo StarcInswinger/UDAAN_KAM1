@@ -17,7 +17,7 @@ public class RestaurantPOC {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long pocId;
+    private Long pocId;
 
     @Column(name = "name", nullable = false, length = 100)
     private String pocName;
