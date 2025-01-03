@@ -65,11 +65,23 @@ public class PerformanceServiceImpl implements PerformanceService {
         performanceRepository.deleteById(id);
     }
 
-
-
     @Override
     public PerformanceResponse getPerformanceByRestaurantId(Long restaurantId) {
         Performance performanceByRestaurantId = performanceRepository.findPerformanceByRestaurant_RestaurantId(restaurantId);
         return modelMapper.map(performanceByRestaurantId, PerformanceResponse.class);
+    }
+
+
+    //to implement logic
+
+    @Override
+    public List<PerformanceResponse> fetchHighPerformingAccounts(){
+        List<PerformanceResponse> highPerformingAccounts = new ArrayList<>();
+        return highPerformingAccounts;
+    }
+    @Override
+    public List<PerformanceResponse> fetchLowPerformingAccounts(){
+        List<PerformanceResponse> lowPerformingAccounts = new ArrayList<>();
+        return lowPerformingAccounts;
     }
 }
