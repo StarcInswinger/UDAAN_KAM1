@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CallReminderResponse {
     private Long reminderId;
-    private RestaurantPOCResponse restaurantPOC;
+    private RestaurantPOCResponse poc;
     private LocalDateTime callAgainDate;
     private CallReminderStatus callReminderStatus;
 }

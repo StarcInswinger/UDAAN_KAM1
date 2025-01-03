@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/call-reminder")
+@RequestMapping("/api/v1/call-reminders")
 public class CallReminderController {
 
     private final CallReminderService callReminderService;
