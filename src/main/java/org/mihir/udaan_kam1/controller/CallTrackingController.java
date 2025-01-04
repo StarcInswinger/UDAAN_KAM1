@@ -40,9 +40,9 @@ public class CallTrackingController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PutMapping
-    public ResponseEntity<CallTrackingResponse> updateCallTracking(@RequestBody CallTrackingRequest callTrackingRequest) {
-        return ResponseEntity.ok(callTrackingService.updateCallTracking(callTrackingRequest));
+    @PutMapping("/{id}")
+    public ResponseEntity<CallTrackingResponse> updateCallTracking(@PathVariable(name = "id") Long callId, @RequestBody CallTrackingRequest callTrackingRequest) {
+        return ResponseEntity.ok(callTrackingService.updateCallTracking(callId, callTrackingRequest));
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")

@@ -47,11 +47,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderResponse updateOrder(Long orderId, OrderRequest orderRequest){
-        Order order = modelMapper.map(orderRequest, Order.class);
-        Order savedOrder = orderRepository.saveAndFlush(order);
+    public OrderResponse updateOrder(Long orderId, OrderRequest orderRequest) {
+        Order oldOrder = orderRepository.findById(orderId).get();
+        if (!orderRequest.getOrderItems().equals(oldOrder.getOrderItems())) {
+            oldOrder.setOrderItems(orderRequest.getOrderItems());
+        }
+        if (!orderRequest.getCartAmount().equals(oldOrder.getCartAmount())) {
+            oldOrder.setCartAmount(orderRequest.getCartAmount());
+        }
+        if (!orderRequest.getOrderTime().equals(oldOrder.getOrderTime())) {
+            oldOrder.setOrderTime(orderRequest.getOrderTime());
+        }
+        Order savedOrder = orderRepository.saveAndFlush(oldOrder);
         return modelMapper.map(savedOrder, OrderResponse.class);
     }
+
 
     @Override
     public void deleteOrder(Long id){

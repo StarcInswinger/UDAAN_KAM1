@@ -40,9 +40,9 @@ public class PerformanceController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PutMapping
-    public ResponseEntity<PerformanceResponse> updatePerformance(@RequestBody PerformanceRequest performanceRequest) {
-        return ResponseEntity.ok(performanceService.updatePerformance(performanceRequest));
+    @PutMapping("/{id}")
+    public ResponseEntity<PerformanceResponse> updatePerformance(@PathVariable(name = "id") Long performanceId, @RequestBody PerformanceRequest performanceRequest) {
+        return ResponseEntity.ok(performanceService.updatePerformance(performanceId, performanceRequest));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

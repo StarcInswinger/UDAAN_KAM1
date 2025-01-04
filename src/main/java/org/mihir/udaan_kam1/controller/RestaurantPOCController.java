@@ -39,8 +39,8 @@ public class RestaurantPOCController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PutMapping("/{pocId}")
-    public ResponseEntity<RestaurantPOCResponse> updateRestaurantPOC(@PathVariable(name = "pocId") Long pocId,@RequestBody RestaurantPOCRequest restaurantPOCRequest) {
+    @PutMapping("/{id}")
+    public ResponseEntity<RestaurantPOCResponse> updateRestaurantPOC(@PathVariable(name = "id") Long pocId,@RequestBody RestaurantPOCRequest restaurantPOCRequest) {
         return ResponseEntity.ok(restaurantPOCService.updateRestaurantPOC(pocId, restaurantPOCRequest));
     }
 

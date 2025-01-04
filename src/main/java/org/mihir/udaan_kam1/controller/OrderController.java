@@ -40,7 +40,7 @@ public class OrderController {
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @PutMapping("/{id}")
-    public ResponseEntity<OrderResponse> updateOrder(@PathVariable(name = "id") Long orderId,@RequestBody OrderRequest orderRequest) {
+    public ResponseEntity<OrderResponse> updateOrder(@PathVariable(name = "id") Long orderId, @RequestBody OrderRequest orderRequest) {
         return ResponseEntity.ok(orderService.updateOrder(orderId, orderRequest));
     }
 

@@ -2,7 +2,6 @@ package org.mihir.udaan_kam1.service.Restaurant;
 
 import org.mihir.udaan_kam1.dao.EmployeeRepository;
 import org.mihir.udaan_kam1.dao.RestaurantRepository;
-import org.mihir.udaan_kam1.dto.Employee.EmployeeResponse;
 import org.mihir.udaan_kam1.dto.Restaurant.RestaurantResponse;
 import org.mihir.udaan_kam1.dto.Restaurant.RestaurantRequest;
 import org.mihir.udaan_kam1.model.Employee;
@@ -53,13 +52,28 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public RestaurantResponse updateRestaurant(RestaurantRequest restaurantRequest) {
-        Employee employee = employeeRepository.findByUsername(restaurantRequest.getEmployeeUsername()).get();
-        Restaurant restaurant = modelMapper.map(restaurantRequest, Restaurant.class);
-        restaurant.setEmployee(employee);
-        Restaurant savedRestaurant = restaurantRepository.saveAndFlush(restaurant);
+    public RestaurantResponse updateRestaurant(Long id, RestaurantRequest restaurantRequest) {
+        Restaurant oldRestaurant = restaurantRepository.findById(id).get();
+        if (!restaurantRequest.getRestaurantName().equals(oldRestaurant.getRestaurantName())) {
+            oldRestaurant.setRestaurantName(restaurantRequest.getRestaurantName());
+        }
+        if (!restaurantRequest.getRestaurantAddress().equals(oldRestaurant.getRestaurantAddress())) {
+            oldRestaurant.setRestaurantAddress(restaurantRequest.getRestaurantAddress());
+        }
+        if (!restaurantRequest.getRestaurantScale().equals(oldRestaurant.getRestaurantScale())) {
+            oldRestaurant.setRestaurantScale(restaurantRequest.getRestaurantScale());
+        }
+        if (!restaurantRequest.getRestaurantStatus().equals(oldRestaurant.getRestaurantStatus())) {
+            oldRestaurant.setRestaurantStatus(restaurantRequest.getRestaurantStatus());
+        }
+        if (!restaurantRequest.getEmployeeUsername().equals(oldRestaurant.getEmployee().getUsername())) {
+            Employee employee = employeeRepository.findByUsername(restaurantRequest.getEmployeeUsername()).get();
+            oldRestaurant.setEmployee(employee);
+        }
+        Restaurant savedRestaurant = restaurantRepository.saveAndFlush(oldRestaurant);
         return modelMapper.map(savedRestaurant, RestaurantResponse.class);
     }
+
 
     @Override
     public void deleteRestaurant(Long id) {

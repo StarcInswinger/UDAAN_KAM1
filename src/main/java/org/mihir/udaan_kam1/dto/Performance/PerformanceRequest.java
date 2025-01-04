@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 public class PerformanceRequest {
     private Long restaurantId;
     private Float totalOrderValue;
-    private Integer numberOfOrders;
-    private Integer orderFrequency;
+    private Integer totalNumberOfOrders;
+    private Integer numberOfOrdersLastMonth;
     private Float performanceIndex;
     private LocalDateTime lastOrderDate;
 }

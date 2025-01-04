@@ -17,8 +17,8 @@ public class PerformanceResponse {
     private Long id;
     private RestaurantResponse restaurant;
     private Float totalOrderValue;
-    private Integer numberOfOrders;
-    private Integer orderFrequency;
+    private Integer totalNumberOfOrders;
+    private Integer numberOfOrdersLastMonth;
     private Float performanceIndex;
     private LocalDateTime lastOrderDate;
 }

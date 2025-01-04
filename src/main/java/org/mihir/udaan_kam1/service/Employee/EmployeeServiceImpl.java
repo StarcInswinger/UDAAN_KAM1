@@ -47,9 +47,24 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeResponse updateEmployee(EmployeeRequest employeeRequest) {
-        Employee employee = modelMapper.map(employeeRequest, Employee.class);
-        Employee savedEmployee = employeeRepository.saveAndFlush(employee);
+    public EmployeeResponse updateEmployee(Long employeeId, EmployeeRequest employeeRequest) {
+        Employee oldEmployee = employeeRepository.findById(employeeId).get();
+        if (!employeeRequest.getEmployeeName().equals(oldEmployee.getEmployeeName())) {
+            oldEmployee.setEmployeeName(employeeRequest.getEmployeeName());
+        }
+        if (!employeeRequest.getUsername().equals(oldEmployee.getUsername())) {
+            oldEmployee.setUsername(employeeRequest.getUsername());
+        }
+        if (!employeeRequest.getPassword().equals(oldEmployee.getPassword())) {
+            oldEmployee.setPassword(employeeRequest.getPassword());
+        }
+        if (!employeeRequest.getRole().equals(oldEmployee.getEmployeeRole())) {
+            oldEmployee.setEmployeeRole(employeeRequest.getRole());
+        }
+        if (!employeeRequest.getTimeZone().equals(oldEmployee.getEmployeeTimeZone())) {
+            oldEmployee.setEmployeeTimeZone(employeeRequest.getTimeZone());
+        }
+        Employee savedEmployee = employeeRepository.saveAndFlush(oldEmployee);
         return modelMapper.map(savedEmployee, EmployeeResponse.class);
     }
 

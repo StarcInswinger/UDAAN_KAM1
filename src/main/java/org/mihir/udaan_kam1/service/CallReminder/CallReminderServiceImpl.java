@@ -1,5 +1,6 @@
 package org.mihir.udaan_kam1.service.CallReminder;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.mihir.udaan_kam1.dao.CallReminderRepository;
 import org.mihir.udaan_kam1.dao.RestaurantPOCRepository;
 import org.mihir.udaan_kam1.dto.CallReminder.CallReminderRequest;
@@ -55,13 +56,22 @@ public class CallReminderServiceImpl implements CallReminderService{
     }
 
     @Override
-    public CallReminderResponse updateCallReminder(CallReminderRequest callReminderRequest) {
+    public CallReminderResponse updateCallReminder(Long reminderId, CallReminderRequest callReminderRequest) {
+        CallReminder oldCallReminder = callReminderRepository.findById(reminderId).get();
+        if (!callReminderRequest.getCallAgainDate().equals(oldCallReminder.getCallAgainDate())) {
+            oldCallReminder.setCallAgainDate(callReminderRequest.getCallAgainDate());
+        }
+        if (!callReminderRequest.getCallReminderStatus().equals(oldCallReminder.getCallReminderStatus())) {
+            oldCallReminder.setCallReminderStatus(callReminderRequest.getCallReminderStatus());
+        }
         RestaurantPOC restaurantPOC = restaurantPOCRepository.findById(callReminderRequest.getPocId()).get();
-        CallReminder callReminder = modelMapper.map(callReminderRequest, CallReminder.class);
-        callReminder.setRestaurantPOC(restaurantPOC);
-        CallReminder savedCallReminder = callReminderRepository.saveAndFlush(callReminder);
+        if (!restaurantPOC.equals(oldCallReminder.getRestaurantPOC())) {
+            oldCallReminder.setRestaurantPOC(restaurantPOC);
+        }
+        CallReminder savedCallReminder = callReminderRepository.saveAndFlush(oldCallReminder);
         return modelMapper.map(savedCallReminder, CallReminderResponse.class);
     }
+
 
     @Override
     public void deleteCallReminder(Long id) {

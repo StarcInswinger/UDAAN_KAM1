@@ -52,13 +52,31 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public PerformanceResponse updatePerformance(PerformanceRequest performanceRequest) {
-        Restaurant restaurant = restaurantRepository.findById(performanceRequest.getRestaurantId()).get();
-        Performance performance = modelMapper.map(performanceRequest, Performance.class);
-        performance.setRestaurant(restaurant);
-        Performance savedPerformance = performanceRepository.saveAndFlush(performance);
+    public PerformanceResponse updatePerformance(Long performanceId, PerformanceRequest performanceRequest) {
+        Performance oldPerformance = performanceRepository.findById(performanceId).get();
+        if (!performanceRequest.getTotalOrderValue().equals(oldPerformance.getTotalOrderValue())) {
+            oldPerformance.setTotalOrderValue(performanceRequest.getTotalOrderValue());
+        }
+        if (!performanceRequest.getTotalNumberOfOrders().equals(oldPerformance.getTotalNumberOfOrders())) {
+            oldPerformance.setTotalNumberOfOrders(performanceRequest.getTotalNumberOfOrders());
+        }
+        if (!performanceRequest.getNumberOfOrdersLastMonth().equals(oldPerformance.getNumberOfOrdersLastMonth())) {
+            oldPerformance.setNumberOfOrdersLastMonth(performanceRequest.getNumberOfOrdersLastMonth());
+        }
+        if (!performanceRequest.getPerformanceIndex().equals(oldPerformance.getPerformanceIndex())) {
+            oldPerformance.setPerformanceIndex(performanceRequest.getPerformanceIndex());
+        }
+        if (!performanceRequest.getLastOrderDate().equals(oldPerformance.getLastOrderDate())) {
+            oldPerformance.setLastOrderDate(performanceRequest.getLastOrderDate());
+        }
+        if (!performanceRequest.getRestaurantId().equals(oldPerformance.getRestaurant().getRestaurantId())) {
+            Restaurant restaurant = restaurantRepository.findById(performanceRequest.getRestaurantId()).get();
+            oldPerformance.setRestaurant(restaurant);
+        }
+        Performance savedPerformance = performanceRepository.saveAndFlush(oldPerformance);
         return modelMapper.map(savedPerformance, PerformanceResponse.class);
     }
+
 
     @Override
     public void deletePerformance(Long id) {

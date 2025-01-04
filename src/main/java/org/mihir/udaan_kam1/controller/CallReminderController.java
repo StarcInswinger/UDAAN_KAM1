@@ -35,9 +35,9 @@ public class CallReminderController {
         return ResponseEntity.ok(callReminderService.createCallReminder(callReminderRequest));
     }
 
-    @PutMapping
-    public ResponseEntity<CallReminderResponse> updateCallTracking(@RequestBody CallReminderRequest callReminderRequest) {
-        return ResponseEntity.ok(callReminderService.updateCallReminder(callReminderRequest));
+    @PutMapping("/{id}")
+    public ResponseEntity<CallReminderResponse> updateCallTracking(@PathVariable(name = "id") Long reminderId, @RequestBody CallReminderRequest callReminderRequest) {
+        return ResponseEntity.ok(callReminderService.updateCallReminder(reminderId, callReminderRequest));
     }
 
     @DeleteMapping("/{id}")

@@ -38,9 +38,9 @@ public class EmployeeController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PutMapping
-    public ResponseEntity<EmployeeResponse> updateEmployee(@RequestBody EmployeeRequest employeeRequest) {
-        return ResponseEntity.ok(employeeService.updateEmployee(employeeRequest));
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable(name = "id") Long employeeId, @RequestBody EmployeeRequest employeeRequest) {
+        return ResponseEntity.ok(employeeService.updateEmployee(employeeId, employeeRequest));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

@@ -39,9 +39,9 @@ public class RestaurantController {
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
-    @PutMapping
-    public ResponseEntity<RestaurantResponse> updateRestaurant(@RequestBody RestaurantRequest restaurantRequest) {
-        return ResponseEntity.ok(restaurantService.updateRestaurant(restaurantRequest));
+    @PutMapping("/{id}")
+    public ResponseEntity<RestaurantResponse> updateRestaurant(@PathVariable(name = "id") Long id, @RequestBody RestaurantRequest restaurantRequest) {
+        return ResponseEntity.ok(restaurantService.updateRestaurant(id, restaurantRequest));
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")

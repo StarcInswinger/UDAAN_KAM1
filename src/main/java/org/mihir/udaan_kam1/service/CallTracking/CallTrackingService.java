@@ -9,7 +9,7 @@ public interface CallTrackingService {
     List<CallTrackingResponse> getAllCallTracking();
     CallTrackingResponse getCallTrackingById(Long id);
     CallTrackingResponse createCallTracking(CallTrackingRequest callTrackingRequest);
-    CallTrackingResponse updateCallTracking(CallTrackingRequest callTrackingRequest);
+    CallTrackingResponse updateCallTracking(Long callId, CallTrackingRequest callTrackingRequest);
     void deleteCallTracking(Long id);
 
     CallTrackingResponse getLastCallTrackingByPOCId(Long pocId);

@@ -6,7 +6,6 @@ import org.mihir.udaan_kam1.dao.OrderRepository;
 import org.mihir.udaan_kam1.dao.RestaurantPOCRepository;
 import org.mihir.udaan_kam1.dto.CallTracking.CallTrackingRequest;
 import org.mihir.udaan_kam1.dto.CallTracking.CallTrackingResponse;
-import org.mihir.udaan_kam1.dto.Performance.PerformanceResponse;
 import org.mihir.udaan_kam1.enums.CallReminderStatus;
 import org.mihir.udaan_kam1.model.*;
 import org.modelmapper.ModelMapper;
@@ -76,15 +75,33 @@ public class CallTrackingServiceImpl implements CallTrackingService {
     }
 
     @Override
-    public CallTrackingResponse updateCallTracking(CallTrackingRequest callTrackingRequest) {
+    public CallTrackingResponse updateCallTracking(Long callId, CallTrackingRequest callTrackingRequest) {
+        CallTracking oldCallTracking = callTrackingRepository.findById(callId).get();
+        if (!callTrackingRequest.getCallDate().equals(oldCallTracking.getCallDate())) {
+            oldCallTracking.setCallDate(callTrackingRequest.getCallDate());
+        }
+        if (callTrackingRequest.getNotes() != null && !callTrackingRequest.getNotes().equals(oldCallTracking.getNotes())) {
+            oldCallTracking.setNotes(callTrackingRequest.getNotes());
+        }
+        if (callTrackingRequest.getCallAgain() != null && !callTrackingRequest.getCallAgain().equals(oldCallTracking.getCallAgain())) {
+            oldCallTracking.setCallAgain(callTrackingRequest.getCallAgain());
+        }
         RestaurantPOC restaurantPOC = restaurantPOCRepository.findById(callTrackingRequest.getPocId()).get();
-        Order order = orderRepository.findById(callTrackingRequest.getOrderId()).orElse(null);
-        CallTracking callTracking = modelMapper.map(callTrackingRequest, CallTracking.class);
-        callTracking.setPoc(restaurantPOC);
-        callTracking.setOrder(order);
-        CallTracking savedCallTracking = callTrackingRepository.saveAndFlush(callTracking);
+        if (!restaurantPOC.equals(oldCallTracking.getPoc())) {
+            oldCallTracking.setPoc(restaurantPOC);
+        }
+        if (callTrackingRequest.getOrderId() != null) {
+            Order order = orderRepository.findById(callTrackingRequest.getOrderId()).get();
+            if (!order.equals(oldCallTracking.getOrder())) {
+                oldCallTracking.setOrder(order);
+            }
+        } else if (oldCallTracking.getOrder() != null) {
+            oldCallTracking.setOrder(null);
+        }
+        CallTracking savedCallTracking = callTrackingRepository.saveAndFlush(oldCallTracking);
         return modelMapper.map(savedCallTracking, CallTrackingResponse.class);
     }
+
 
     @Override
     public void deleteCallTracking(Long id) {

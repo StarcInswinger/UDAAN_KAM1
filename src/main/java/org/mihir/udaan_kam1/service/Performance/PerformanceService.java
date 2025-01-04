@@ -9,7 +9,7 @@ public interface PerformanceService {
     List<PerformanceResponse> getAllPerformances();
     PerformanceResponse getPerformanceById(Long id);
     PerformanceResponse createPerformance(PerformanceRequest performanceRequest);
-    PerformanceResponse updatePerformance(PerformanceRequest performanceRequest);
+    PerformanceResponse updatePerformance(Long performanceId, PerformanceRequest performanceRequest);
     void deletePerformance(Long id);
 
     PerformanceResponse getPerformanceByRestaurantId(Long restaurantId);

@@ -9,7 +9,7 @@ public interface RestaurantService {
     List<RestaurantResponse> getAllRestaurants();
     RestaurantResponse getRestaurant(Long id);
     RestaurantResponse createRestaurant(RestaurantRequest restaurantRequest);
-    RestaurantResponse updateRestaurant(RestaurantRequest restaurantRequest);
+    RestaurantResponse updateRestaurant(Long id, RestaurantRequest restaurantRequest);
     void deleteRestaurant(Long id);
 
     List<RestaurantResponse> getRestaurantsByEmployeeUsername(String employeeUsername);
