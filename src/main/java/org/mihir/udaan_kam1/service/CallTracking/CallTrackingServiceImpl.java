@@ -1,15 +1,14 @@
 package org.mihir.udaan_kam1.service.CallTracking;
 
+import org.mihir.udaan_kam1.dao.CallReminderRepository;
 import org.mihir.udaan_kam1.dao.CallTrackingRepository;
 import org.mihir.udaan_kam1.dao.OrderRepository;
 import org.mihir.udaan_kam1.dao.RestaurantPOCRepository;
 import org.mihir.udaan_kam1.dto.CallTracking.CallTrackingRequest;
 import org.mihir.udaan_kam1.dto.CallTracking.CallTrackingResponse;
 import org.mihir.udaan_kam1.dto.Performance.PerformanceResponse;
-import org.mihir.udaan_kam1.model.CallTracking;
-import org.mihir.udaan_kam1.model.Order;
-import org.mihir.udaan_kam1.model.Performance;
-import org.mihir.udaan_kam1.model.RestaurantPOC;
+import org.mihir.udaan_kam1.enums.CallReminderStatus;
+import org.mihir.udaan_kam1.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +21,14 @@ public class CallTrackingServiceImpl implements CallTrackingService {
     private final OrderRepository orderRepository;
     private final CallTrackingRepository callTrackingRepository;
     private final ModelMapper modelMapper;
+    private final CallReminderRepository callReminderRepository;
 
-    public CallTrackingServiceImpl(RestaurantPOCRepository restaurantPOCRepository, OrderRepository orderRepository, CallTrackingRepository callTrackingRepository, ModelMapper modelMapper) {
+    public CallTrackingServiceImpl(RestaurantPOCRepository restaurantPOCRepository, OrderRepository orderRepository, CallTrackingRepository callTrackingRepository, ModelMapper modelMapper, CallReminderRepository callReminderRepository) {
         this.restaurantPOCRepository = restaurantPOCRepository;
         this.orderRepository = orderRepository;
         this.callTrackingRepository = callTrackingRepository;
         this.modelMapper = modelMapper;
+        this.callReminderRepository = callReminderRepository;
     }
 
     @Override
@@ -50,9 +51,11 @@ public class CallTrackingServiceImpl implements CallTrackingService {
     public CallTrackingResponse createCallTracking(CallTrackingRequest callTrackingRequest) {
         Order order = null;
         RestaurantPOC restaurantPOC = restaurantPOCRepository.findById(callTrackingRequest.getPocId()).get();
+
         if(callTrackingRequest.getOrderId()!=null) {
             order = orderRepository.findById(callTrackingRequest.getOrderId()).orElse(null);
         }
+
         CallTracking callTracking = CallTracking.builder()
                 .poc(restaurantPOC)
                 .callDate(callTrackingRequest.getCallDate())
@@ -61,6 +64,13 @@ public class CallTrackingServiceImpl implements CallTrackingService {
                 .order(order)
                 .build();
 
+        CallReminder callReminder = CallReminder.builder()
+                .callReminderStatus(CallReminderStatus.TO_CALL)
+                .restaurantPOC(restaurantPOC)
+                .callAgainDate(callTracking.getCallBackDate())
+                .build();
+
+        callReminderRepository.save(callReminder);
         CallTracking savedCallTracking = callTrackingRepository.saveAndFlush(callTracking);
         return modelMapper.map(savedCallTracking, CallTrackingResponse.class);
     }

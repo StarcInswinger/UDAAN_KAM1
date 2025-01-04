@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "call_tracking")
@@ -35,4 +36,11 @@ public class CallTracking {
     @OneToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
+
+    public LocalDateTime getCallBackDate() {
+        if (callAgain == null || callAgain < 0) {
+            return null;
+        }
+        return callDate.plusDays(callAgain);
+    }
 }

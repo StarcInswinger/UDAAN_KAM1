@@ -12,4 +12,6 @@ public interface CallReminderService {
     CallReminderResponse createCallReminder(CallReminderRequest callReminderRequest);
     CallReminderResponse updateCallReminder(CallReminderRequest callReminderRequest);
     void deleteCallReminder(Long id);
+
+    List<CallReminderResponse> getCallRemindersByEmployee(String username);
 }

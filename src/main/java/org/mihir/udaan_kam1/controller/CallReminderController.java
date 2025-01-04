@@ -45,4 +45,10 @@ public class CallReminderController {
         callReminderService.deleteCallReminder(id);
         return ResponseEntity.ok("Call Reminder deleted with ID: " + id);
     }
+
+
+    @GetMapping("/by-employee/{username}")
+    public ResponseEntity<List<CallReminderResponse>> getCallRemindersByEmployee(@PathVariable(name = "username") String username) {
+        return ResponseEntity.ok(callReminderService.getCallRemindersByEmployee(username));
+    }
 }

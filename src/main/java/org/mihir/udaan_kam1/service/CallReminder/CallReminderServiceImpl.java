@@ -4,20 +4,21 @@ import org.mihir.udaan_kam1.dao.CallReminderRepository;
 import org.mihir.udaan_kam1.dao.RestaurantPOCRepository;
 import org.mihir.udaan_kam1.dto.CallReminder.CallReminderRequest;
 import org.mihir.udaan_kam1.dto.CallReminder.CallReminderResponse;
-import org.mihir.udaan_kam1.dto.CallTracking.CallTrackingResponse;
 import org.mihir.udaan_kam1.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CallReminderServiceImpl implements CallReminderService{
-    private CallReminderRepository callReminderRepository;
-    private RestaurantPOCRepository restaurantPOCRepository;
-    private ModelMapper modelMapper;
+    private final CallReminderRepository callReminderRepository;
+    private final RestaurantPOCRepository restaurantPOCRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public CallReminderServiceImpl(CallReminderRepository callReminderRepository, RestaurantPOCRepository restaurantPOCRepository, ModelMapper modelMapper) {
@@ -65,5 +66,19 @@ public class CallReminderServiceImpl implements CallReminderService{
     @Override
     public void deleteCallReminder(Long id) {
         callReminderRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CallReminderResponse> getCallRemindersByEmployee(String username) {
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+        List<CallReminder> callReminders =  callReminderRepository.findByRestaurantPOC_Restaurant_Employee_UsernameAndCallAgainDateBetweenOrderByCallAgainDateDesc(username, startOfDay, endOfDay);
+        List<CallReminderResponse> callReminderResponses = new ArrayList<>();
+        for (CallReminder callReminder : callReminders) {
+            callReminderResponses.add(modelMapper.map(callReminder, CallReminderResponse.class));
+        }
+        return callReminderResponses;
     }
 }

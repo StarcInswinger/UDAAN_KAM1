@@ -21,17 +21,17 @@ public class Performance {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "restaurant_id",  referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "restaurant_id",  referencedColumnName = "id")
     private Restaurant restaurant;
 
     @Column(name = "total_order_value")
     private Float totalOrderValue;
 
     @Column(name = "number_of_orders")
-    private Integer numberOfOrders;
+    private Integer totalNumberOfOrders;
 
     @Column(name = "order_frequency")
-    private Integer orderFrequency;
+    private Integer numberOfOrdersLastMonth;
 
     @Column(name = "performance_index")
     private Float performanceIndex;

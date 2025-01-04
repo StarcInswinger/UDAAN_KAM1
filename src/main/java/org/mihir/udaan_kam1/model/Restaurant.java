@@ -41,4 +41,7 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<RestaurantPOC> pointOfContacts;
+
+    @OneToOne
+    private Performance performance;
 }
