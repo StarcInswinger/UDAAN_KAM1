@@ -27,15 +27,14 @@ public class CallTracking {
     @Column(name = "call_date", nullable = false)
     private LocalDateTime callDate;
 
-    @Column(name = "notes", length = 255)
+    @Column(name = "notes")
     private String notes;
 
     @Column(name = "call_again")
     private Integer callAgain;
 
-    @OneToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
-    private Order order;
+    @Column(name = "order_id")
+    private Long orderId;
 
     public LocalDateTime getCallBackDate() {
         if (callAgain == null || callAgain < 0) {

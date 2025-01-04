@@ -15,4 +15,5 @@ public class OrderRequest {
     private String orderItems;
     private Integer cartAmount;
     private LocalDateTime orderTime;
+    private Long recordId;
 }

@@ -15,4 +15,5 @@ public interface PerformanceService {
     PerformanceResponse getPerformanceByRestaurantId(Long restaurantId);
     List<PerformanceResponse> fetchHighPerformingAccountsByEmployeeUsername(String employeeUsername);
     List<PerformanceResponse> fetchLowPerformingAccountsByEmployeeUsername(String employeeUsername);
+    void resetMonthlyPerformanceMetrics();
 }

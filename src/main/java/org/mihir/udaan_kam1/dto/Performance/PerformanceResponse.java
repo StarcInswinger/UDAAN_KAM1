@@ -16,9 +16,10 @@ import java.time.LocalDateTime;
 public class PerformanceResponse {
     private Long id;
     private RestaurantResponse restaurant;
-    private Float totalOrderValue;
+    private Integer totalOrderValue;
     private Integer totalNumberOfOrders;
-    private Integer numberOfOrdersLastMonth;
+    private Integer orderValueInMonth;
+    private Integer numberOfOrdersInMonth;
     private Float performanceIndex;
-    private LocalDateTime lastOrderDate;
+    private String lastOrderDate;
 }

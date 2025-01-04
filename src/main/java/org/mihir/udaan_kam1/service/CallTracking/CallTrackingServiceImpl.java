@@ -60,7 +60,6 @@ public class CallTrackingServiceImpl implements CallTrackingService {
                 .callDate(callTrackingRequest.getCallDate())
                 .notes(callTrackingRequest.getNotes())
                 .callAgain(callTrackingRequest.getCallAgain())
-                .order(order)
                 .build();
 
         CallReminder callReminder = CallReminder.builder()
@@ -71,6 +70,7 @@ public class CallTrackingServiceImpl implements CallTrackingService {
 
         callReminderRepository.save(callReminder);
         CallTracking savedCallTracking = callTrackingRepository.saveAndFlush(callTracking);
+        System.out.println(modelMapper.map(savedCallTracking, CallTrackingResponse.class));
         return modelMapper.map(savedCallTracking, CallTrackingResponse.class);
     }
 
@@ -86,17 +86,8 @@ public class CallTrackingServiceImpl implements CallTrackingService {
         if (callTrackingRequest.getCallAgain() != null && !callTrackingRequest.getCallAgain().equals(oldCallTracking.getCallAgain())) {
             oldCallTracking.setCallAgain(callTrackingRequest.getCallAgain());
         }
-        RestaurantPOC restaurantPOC = restaurantPOCRepository.findById(callTrackingRequest.getPocId()).get();
-        if (!restaurantPOC.equals(oldCallTracking.getPoc())) {
-            oldCallTracking.setPoc(restaurantPOC);
-        }
-        if (callTrackingRequest.getOrderId() != null) {
-            Order order = orderRepository.findById(callTrackingRequest.getOrderId()).get();
-            if (!order.equals(oldCallTracking.getOrder())) {
-                oldCallTracking.setOrder(order);
-            }
-        } else if (oldCallTracking.getOrder() != null) {
-            oldCallTracking.setOrder(null);
+        if (callTrackingRequest.getOrderId() != null && !callTrackingRequest.getOrderId().equals(oldCallTracking.getOrderId())) {
+            oldCallTracking.setOrderId(callTrackingRequest.getOrderId());
         }
         CallTracking savedCallTracking = callTrackingRepository.saveAndFlush(oldCallTracking);
         return modelMapper.map(savedCallTracking, CallTrackingResponse.class);

@@ -17,6 +17,6 @@ import java.time.LocalDateTime;
 public class CallReminderResponse {
     private Long reminderId;
     private RestaurantPOCResponse poc;
-    private LocalDateTime callAgainDate;
+    private String callAgainDate;
     private CallReminderStatus callReminderStatus;
 }

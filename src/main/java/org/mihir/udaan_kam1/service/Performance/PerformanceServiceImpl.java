@@ -8,6 +8,7 @@ import org.mihir.udaan_kam1.model.Performance;
 import org.mihir.udaan_kam1.model.Restaurant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -60,8 +61,11 @@ public class PerformanceServiceImpl implements PerformanceService {
         if (!performanceRequest.getTotalNumberOfOrders().equals(oldPerformance.getTotalNumberOfOrders())) {
             oldPerformance.setTotalNumberOfOrders(performanceRequest.getTotalNumberOfOrders());
         }
-        if (!performanceRequest.getNumberOfOrdersLastMonth().equals(oldPerformance.getNumberOfOrdersLastMonth())) {
-            oldPerformance.setNumberOfOrdersLastMonth(performanceRequest.getNumberOfOrdersLastMonth());
+        if (!performanceRequest.getOrderValueInMonth().equals(oldPerformance.getOrderValueInMonth())) {
+            oldPerformance.setOrderValueInMonth(performanceRequest.getOrderValueInMonth());
+        }
+        if (!performanceRequest.getNumberOfOrdersInMonth().equals(oldPerformance.getNumberOfOrdersInMonth())) {
+            oldPerformance.setNumberOfOrdersInMonth(performanceRequest.getNumberOfOrdersInMonth());
         }
         if (!performanceRequest.getPerformanceIndex().equals(oldPerformance.getPerformanceIndex())) {
             oldPerformance.setPerformanceIndex(performanceRequest.getPerformanceIndex());
@@ -90,16 +94,33 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
 
-    //to implement logic
-
     @Override
     public List<PerformanceResponse> fetchHighPerformingAccountsByEmployeeUsername(String employeeUsername){
+        List<Performance> highPerformances = performanceRepository.findPerformancesByRestaurant_Employee_UsernameOrderByPerformanceIndexDesc(employeeUsername);
         List<PerformanceResponse> highPerformingAccounts = new ArrayList<>();
+        for(Performance performance : highPerformances){
+            highPerformingAccounts.add(modelMapper.map(performance, PerformanceResponse.class));
+        }
         return highPerformingAccounts;
     }
     @Override
     public List<PerformanceResponse> fetchLowPerformingAccountsByEmployeeUsername(String employeeUsername){
+        List<Performance> lowPerformances = performanceRepository.findPerformancesByRestaurant_Employee_UsernameOrderByPerformanceIndexAsc(employeeUsername);
         List<PerformanceResponse> lowPerformingAccounts = new ArrayList<>();
+        for(Performance performance : lowPerformances){
+            lowPerformingAccounts.add(modelMapper.map(performance, PerformanceResponse.class));
+        }
         return lowPerformingAccounts;
+    }
+
+    @Override
+    public void resetMonthlyPerformanceMetrics() {
+        System.out.println("trigger");
+        List<Performance> performances = performanceRepository.findAll();
+        for (Performance performance : performances) {
+            performance.setOrderValueInMonth(0);
+            performance.setNumberOfOrdersInMonth(0);
+        }
+        performanceRepository.saveAll(performances);
     }
 }

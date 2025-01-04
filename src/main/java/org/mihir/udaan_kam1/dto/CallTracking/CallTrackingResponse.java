@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class CallTrackingResponse {
     private Long recordId;
     private RestaurantPOCResponse poc;
-    private LocalDateTime callDate;
+    private String callDate;
     private String notes;
     private Integer callAgain;
-    private OrderResponse order;
+    private Long orderId;
 }
