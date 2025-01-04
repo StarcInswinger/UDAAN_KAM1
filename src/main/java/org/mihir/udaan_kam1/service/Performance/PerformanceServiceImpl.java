@@ -93,12 +93,12 @@ public class PerformanceServiceImpl implements PerformanceService {
     //to implement logic
 
     @Override
-    public List<PerformanceResponse> fetchHighPerformingAccounts(){
+    public List<PerformanceResponse> fetchHighPerformingAccountsByEmployeeUsername(String employeeUsername){
         List<PerformanceResponse> highPerformingAccounts = new ArrayList<>();
         return highPerformingAccounts;
     }
     @Override
-    public List<PerformanceResponse> fetchLowPerformingAccounts(){
+    public List<PerformanceResponse> fetchLowPerformingAccountsByEmployeeUsername(String employeeUsername){
         List<PerformanceResponse> lowPerformingAccounts = new ArrayList<>();
         return lowPerformingAccounts;
     }

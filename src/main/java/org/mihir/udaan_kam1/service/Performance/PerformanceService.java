@@ -13,6 +13,6 @@ public interface PerformanceService {
     void deletePerformance(Long id);
 
     PerformanceResponse getPerformanceByRestaurantId(Long restaurantId);
-    List<PerformanceResponse> fetchHighPerformingAccounts();
-    List<PerformanceResponse> fetchLowPerformingAccounts();
+    List<PerformanceResponse> fetchHighPerformingAccountsByEmployeeUsername(String employeeUsername);
+    List<PerformanceResponse> fetchLowPerformingAccountsByEmployeeUsername(String employeeUsername);
 }
