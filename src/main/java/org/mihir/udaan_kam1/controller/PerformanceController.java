@@ -57,4 +57,17 @@ public class PerformanceController {
     public ResponseEntity<PerformanceResponse> getPerformanceByRestaurantId(@RequestParam(name = "id") Long restaurantId) {
         return ResponseEntity.ok(performanceService.getPerformanceByRestaurantId(restaurantId));
     }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/by-employee/{username}/high")
+    public ResponseEntity<List<PerformanceResponse>> fetchHighPerformingAccountsByEmployeeUsername(@PathVariable(name = "username") String username){
+        return ResponseEntity.ok(performanceService.fetchHighPerformingAccountsByEmployeeUsername(username));
+
+    }
+
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @GetMapping("/by-employee/{username}/low")
+    public ResponseEntity<List<PerformanceResponse>> fetchLowPerformingAccountsByEmployeeUsername(@PathVariable(name = "username") String username){
+        return ResponseEntity.ok(performanceService.fetchLowPerformingAccountsByEmployeeUsername(username));
+    }
 }
