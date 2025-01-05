@@ -68,8 +68,8 @@ jobs:
               git pull origin main
             fi
 
-            if [ ! -f "docker-compose.yml" ]; then
-              echo "Error: docker-compose.yml not found!"
+            if [ ! -f "docker-compose.yaml" ]; then
+              echo "Error: docker-compose.yaml not found!"
               exit 1
             fi
 
