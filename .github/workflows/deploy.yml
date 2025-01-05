@@ -24,7 +24,10 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
-        run: mvn clean package -DskipTests
+        run: mvn -B clean package -DskipTests
+
+      - name: Run tests
+        run: mvn -B test
 
       - name: Build and tag Docker image
         run: |
@@ -59,22 +62,30 @@ jobs:
           username: ubuntu
           key_path: key.pem
           script: |
-            mkdir app
+            mkdir -p app
             cd app/
+
             if [ ! -d ".git" ]; then
               rm -rf *
-              git clone ${{ github.server_url }}/${{ github.repository }} .
+              git clone https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PAT }}@github.com/${{ github.repository }} .
             else
+              git config --local credential.helper store
+              echo "https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PAT }}@github.com" > ~/.git-credentials
               git pull origin main
             fi
-            
+
             if [ ! -f "docker-compose.yml" ]; then
               echo "Error: docker-compose.yml not found!"
               exit 1
             fi
 
             docker-compose down || true
+
             docker system prune -af --volumes || true
+
             docker-compose pull
             docker-compose up -d --remove-orphans
+
             docker-compose ps
+
+            rm -f ~/.git-credentials
