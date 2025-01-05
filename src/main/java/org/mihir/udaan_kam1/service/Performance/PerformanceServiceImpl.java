@@ -120,6 +120,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         for (Performance performance : performances) {
             performance.setOrderValueInMonth(0);
             performance.setNumberOfOrdersInMonth(0);
+            performance.setPerformanceIndex(0f);
         }
         performanceRepository.saveAll(performances);
     }

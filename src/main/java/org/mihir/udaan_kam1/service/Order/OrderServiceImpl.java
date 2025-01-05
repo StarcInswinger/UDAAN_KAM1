@@ -1,6 +1,5 @@
 package org.mihir.udaan_kam1.service.Order;
 
-import org.aspectj.weaver.ast.Call;
 import org.mihir.udaan_kam1.dao.CallTrackingRepository;
 import org.mihir.udaan_kam1.dao.OrderRepository;
 import org.mihir.udaan_kam1.dao.PerformanceRepository;
@@ -101,7 +100,6 @@ public class OrderServiceImpl implements OrderService {
         Long restaurantId = order.getCallTracking().getPoc().getRestaurant().getRestaurantId();
         Performance restaurantPerformance = performanceRepository.findPerformanceByRestaurant_RestaurantId(restaurantId);
         if (restaurantPerformance == null) {
-            System.out.println("andar gya");
             restaurantPerformance = Performance.builder()
                     .restaurant(order.getCallTracking().getPoc().getRestaurant())
                     .lastOrderDate(order.getOrderTime())
@@ -110,46 +108,51 @@ public class OrderServiceImpl implements OrderService {
                     .totalOrderValue(order.getCartAmount())
                     .orderValueInMonth(order.getCartAmount())
                     .build();
-            restaurantPerformance.setPerformanceIndex(calculatePerformanceIndex(restaurantPerformance, order));
-            performanceRepository.saveAndFlush(restaurantPerformance);
         } else {
-            System.out.println("bahar raha");
             restaurantPerformance.setTotalNumberOfOrders(restaurantPerformance.getTotalNumberOfOrders() + 1);
             restaurantPerformance.setNumberOfOrdersInMonth(restaurantPerformance.getNumberOfOrdersInMonth() + 1);
             restaurantPerformance.setTotalOrderValue(restaurantPerformance.getTotalOrderValue() + order.getCartAmount());
+            restaurantPerformance.setOrderValueInMonth(restaurantPerformance.getOrderValueInMonth()+ order.getCartAmount());
             restaurantPerformance.setLastOrderDate(order.getOrderTime());
-            restaurantPerformance.setPerformanceIndex(calculatePerformanceIndex(restaurantPerformance, order));
-            performanceRepository.saveAndFlush(restaurantPerformance);
         }
+        restaurantPerformance.setPerformanceIndex(calculatePerformanceIndex(restaurantPerformance, order));
+        performanceRepository.saveAndFlush(restaurantPerformance);
 
     }
 
     private Float calculatePerformanceIndex(Performance restaurantPerformance, Order order) {
         RestaurantScale restaurantScale = restaurantPerformance.getRestaurant().getRestaurantScale();
-        float maxCartValue;
+        Integer monthlyOrderNumber = restaurantPerformance.getNumberOfOrdersInMonth();
+        float maxOrderNumber;
+
+        Integer monthlyOrderValue = restaurantPerformance.getOrderValueInMonth();
         float maxOrderValue;
-        Integer monthlyOrderValue = restaurantPerformance.getNumberOfOrdersInMonth();
-        Integer monthlyNumberOfOrders = restaurantPerformance.getOrderValueInMonth();
 
         if (restaurantScale == RestaurantScale.SMALL) {
-            maxCartValue = 20000f;
-            maxOrderValue = 10f;
+            maxOrderValue = 20000f;
+            maxOrderNumber = 10f;
         } else if (restaurantScale == RestaurantScale.MEDIUM) {
-            maxCartValue = 75000f;
-            maxOrderValue = 20f;
+            maxOrderValue = 75000f;
+            maxOrderNumber = 20f;
         } else {
-            maxCartValue = 400000f;
-            maxOrderValue = 30f;
+            maxOrderValue = 400000f;
+            maxOrderNumber = 30f;
         }
-
-        return normaliseMetrics(monthlyOrderValue, maxCartValue, monthlyNumberOfOrders, maxOrderValue);
+        System.out.println(restaurantScale);
+        return normaliseMetrics(monthlyOrderNumber, maxOrderNumber, monthlyOrderValue, maxOrderValue);
     }
 
-    private Float normaliseMetrics(Integer monthlyOrderValue, Float maxCartValue, Integer monthlyNumberOfOrders, Float maxOrderValue) {
-        float cartValueScore = (monthlyOrderValue / maxCartValue) * 100;
-        float orderScore = (monthlyNumberOfOrders / maxOrderValue) * 100;
+    private Float normaliseMetrics(Integer monthlyOrderNumber, Float maxOrderNumber, Integer monthlyOrderValue, Float maxOrderValue) {
+        float orderScore = (monthlyOrderNumber / maxOrderNumber) * 100;
+        float cartValueScore = (monthlyOrderValue / maxOrderValue) * 100;
         Float performanceIndex = (cartValueScore * 80 / 100) + (orderScore * 20 / 100);
-
+        System.out.println(monthlyOrderNumber);
+        System.out.println(maxOrderNumber);
+        System.out.println(monthlyOrderValue);
+        System.out.println(maxOrderValue);
+        System.out.println(orderScore);
+        System.out.println(cartValueScore);
+        System.out.println(performanceIndex);
         return performanceIndex;
     }
 }
