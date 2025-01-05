@@ -77,11 +77,11 @@ jobs:
 
             docker-compose down || true
             docker-compose pull
-            docker-compose up -d
+            docker-compose up -d --build
             
             curl -sSL https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh -o wait-for-it.sh
             chmod +x wait-for-it.sh
-            ./wait-for-it.sh db:5432 --timeout=60 --strict -- echo "Database is ready"
+            ./wait-for-it.sh db:5432 --timeout=20 --strict -- echo "Database is ready"
           
             docker-compose ps
             docker-compose logs -f
