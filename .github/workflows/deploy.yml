@@ -14,10 +14,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'adoptopenjdk'
+          distribution: 'temurin'
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
@@ -34,17 +34,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Decode PEM file from secret
+        run: echo "${{ secrets.AWS_PRIVATE_KEY }}" | base64 --decode > ~/.ssh/id_rsa
+
+      - name: Set permissions on PEM file
+        run: chmod 600 ~/.ssh/id_rsa
+
       - name: SSH to EC2 and deploy Docker container
         uses: appleboy/ssh-action@v0.1.1
         with:
           host: ${{ secrets.AWS_HOST }}
           username: ubuntu
-          key: ${{ secrets.AWS_PRIVATE_KEY }}
+          key: ~/.ssh/id_rsa
           script: |
             cd /home/ubuntu/app
-            
+
+            # Pull the latest changes from the main branch
             git pull origin main
-            
+
+            # Shut down the existing containers
             docker-compose down
 
+            # Rebuild and restart the containers
             docker-compose up -d
