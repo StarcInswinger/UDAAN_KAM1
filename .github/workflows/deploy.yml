@@ -72,6 +72,8 @@ jobs:
               echo "Error: docker-compose.yaml not found!"
               exit 1
             fi
+            
+            ./mvnw clean package
 
             docker-compose down || true
 
