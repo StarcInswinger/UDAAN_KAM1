@@ -59,10 +59,22 @@ jobs:
           username: ubuntu
           key_path: key.pem
           script: |
-            cd /home/ubuntu/app
-            git pull origin main
-            docker-compose down
-            docker system prune -af
+            mkdir app
+            cd app/
+            if [ ! -d ".git" ]; then
+              rm -rf *
+              git clone ${{ github.server_url }}/${{ github.repository }} .
+            else
+              git pull origin main
+            fi
+            
+            if [ ! -f "docker-compose.yml" ]; then
+              echo "Error: docker-compose.yml not found!"
+              exit 1
+            fi
+
+            docker-compose down || true
+            docker system prune -af --volumes || true
             docker-compose pull
             docker-compose up -d --remove-orphans
             docker-compose ps
