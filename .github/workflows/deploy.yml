@@ -76,10 +76,6 @@ jobs:
             ./mvnw clean package -DskipTests
 
             docker-compose down || true
-
-            docker system prune -af --volumes || true
-
             docker-compose pull
-            docker-compose up -d --remove-orphans
-
+            docker-compose up -d
             docker-compose ps
