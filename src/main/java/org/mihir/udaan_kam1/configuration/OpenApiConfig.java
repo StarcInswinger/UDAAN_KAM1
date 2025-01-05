@@ -31,7 +31,7 @@ public class OpenApiConfig {
                                 .url("http://www.apache.org/licenses/LICENSE-2.0.html")))
                 .servers(List.of(
                         new Server().url("http://localhost:8080").description("Development server"),
-                        new Server().url("https://api.production.com").description("Production server")))
+                        new Server().url("https://13.201.74.214").description("Production server")))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth",
                                 new SecurityScheme()
