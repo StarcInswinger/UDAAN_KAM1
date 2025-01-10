@@ -8,9 +8,9 @@ Key Access Manager (KAM) Lead Management System using SpringBoot and Postgres-DB
 5. **Performance Tracking**: Monitor account performance and flag underperformers.
 
 ## Documentation
-AWS Hosted URL: https://13.201.74.214/
+
 Swagger REST Docs: https://13.201.74.214/swagger-ui/index.html#/
-Vercel Hosted Frontend URL: https://kam-frontend.vercel.app/
+
 
 ## Local Build and Run
 ### Install Java
